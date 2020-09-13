@@ -1,0 +1,143 @@
+* {
+  font-family: 'Kufam', cursive;
+}
+
+body {
+    widows: 100%;
+    height: 100%;
+    background-color: #eee;
+    font-size: 20px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.container {
+    width: 650px;
+    margin: 0 auto;
+    padding: 0 15px 40px;
+}
+
+.calc {
+    margin: 20px auto;
+    background-color: #56526a;
+    width: 385px;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.calc-display-input {
+    width: 360px;
+    height: 60px;
+    margin: 20px 0;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #56526a;
+    text-align: right;
+    font-size: 55px;
+    padding: 10px;
+}
+
+.calc_button-row td {
+    margin: 0 auto;
+    padding: 5px;
+}
+
+.btn {
+    width: 84px;
+    height: 60px;
+    background-color: #f4f4f4;
+    font-size: 28px;
+    color: #666666;
+    text-transform: uppercase;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: 0.1s all;
+    outline: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.btn:focus{
+  outline: none;
+}
+
+.btn-hover-red:hover {
+    background-color: #d83e33;
+    color: #f2f2f2;
+}
+
+.btn-hover-orange:hover {
+    background-color: #FF6A00;
+    color: #f2f2f2;
+}
+
+.btn-hover-green:hover {
+    background-color: green;
+    color: #f2f2f2;
+}
+
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0px 0px #ccc;
+    outline: none;
+}
+
+.btn-long {
+    width: 183px;
+}
+
+.btn-equal {
+    height: 145px;
+}
+
+input, button {
+    padding: 5px 15px;
+    margin: 10px;
+    border: 1px grey solid;
+    border-radius: 4px;
+}
+
+button {
+    margin-left: 0;
+    padding: 15px 24px;
+}
+
+@media screen and (max-width: 768px) {
+    .calc {
+        width: 300px;
+        margin: 0 auto;
+    }
+    .calc-display-input {
+        width: 280px;
+    }
+
+    input[placeholder]          {font-size: 28px;}
+    input::-moz-placeholder     {font-size: 28px;}
+    input:-moz-placeholder      {font-size: 28px;}
+    input:-ms-input-placeholder {font-size: 28px;}
+
+    .btn {
+        width : 64px;
+    }
+    .btn-long {
+        width: 140px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .calc {
+        width: 280px;
+    }
+    .calc-display-input {
+        width: 260px;
+    }
+    .btn {
+        width : 60px;
+    }
+    .btn-long {
+        width: 132px;
+    }
+}
