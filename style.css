@@ -24,20 +24,20 @@ header {
 .calc {
     margin: 20px auto;
     background-color: #56526a;
-    width: 385px;
-    padding: 15px;
+    width: 483px;
+    padding: 5px;
     border-radius: 6px;
 }
 
 .calc-display-input {
-    width: 360px;
+    width: 460px;
     height: 60px;
     margin: 20px 0;
     border-radius: 10px;
     background-color: #fff;
     color: #56526a;
     text-align: right;
-    font-size: 55px;
+    font-size: 40px;
     padding: 10px;
 }
 
