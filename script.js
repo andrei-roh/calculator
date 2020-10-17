@@ -65,23 +65,23 @@ function operatorPress(operation) {
     MemoryNewNumber = true;
     if (MemoryPendingOperation === '+') {
       MemoryCurrentNumber += parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
     }
     else if (MemoryPendingOperation === '-') {
       MemoryCurrentNumber -= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
     }
     else if (MemoryPendingOperation === '×') {
       MemoryCurrentNumber *= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
     }
     else if (MemoryPendingOperation === '÷') {
       MemoryCurrentNumber /= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
     }
     else if (MemoryPendingOperation === '^') {
       MemoryCurrentNumber = Math.pow(MemoryCurrentNumber, localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
     }
     else {
       MemoryCurrentNumber = parseFloat(localOperationMemory);
