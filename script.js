@@ -3,7 +3,6 @@ let numbers = document.querySelectorAll('.number'),
     decimalButton = document.getElementById('decimal'),
     minusButton = document.getElementById('minus')
     radicButton = document.getElementById('radic'),
-    sup2Button = document.getElementById('sup2'),
     absButton = document.getElementById('abs'),
     factorialButton = document.getElementById('factorial'),
     clearButtons = document.querySelectorAll('.clear-btn'),
@@ -14,9 +13,9 @@ let numbers = document.querySelectorAll('.number'),
     MemoryPendingOperation = '';
 
 
-for(i = 0; i < numbers.length; i++){
+for(i = 0; i < numbers.length; i++) {
   let number = numbers[i];
-  number.addEventListener('click', function(symbol){
+  number.addEventListener('click', function(symbol) {
     numberPress(symbol.target.textContent);
   });
 }
@@ -26,30 +25,29 @@ for(i = 0; i < operators.length; i++){
     operatorPress(symbol.target.textContent);
   });
 }
-for(i = 0; i < clearButtons.length; i++){
+for(i = 0; i < clearButtons.length; i++) {
   let clearButton = clearButtons[i];
-  clearButton.addEventListener('click', function(id){
+  clearButton.addEventListener('click', function(id) {
     clearPress(id.srcElement.id)
   });
 }
 decimalButton.addEventListener('click', decimalAdd);
 radicButton.addEventListener('click', radicAdd);
-sup2Button.addEventListener('click', sup2Add);
 absButton.addEventListener('click', absAdd);
 factorialButton.addEventListener('click', factorialAdd);
 minusButton.addEventListener('click', minusAdd);
 
-function numberPress(number){
-  if (MemoryNewNumber){
+function numberPress(number) {
+  if (MemoryNewNumber) {
     display.value = number;
     MemoryNewNumber = false;
   }
-  else if(MemoryNewNumber && MemoryPendingOperation === '-'){
+  else if(MemoryNewNumber && MemoryPendingOperation === '-') {
     display.value = -(number);
     MemoryNewNumber = false;
   }
   else{
-    if(display.value === '0'){
+    if(display.value === '0') {
       display.value = number;
     }
     else{
@@ -58,54 +56,58 @@ function numberPress(number){
   }
 };
 
-function operatorPress(operation){
+function operatorPress(operation) {
   let localOperationMemory = display.value;
-  if (MemoryNewNumber && MemoryPendingOperation !== '='){
+  if (MemoryNewNumber && MemoryPendingOperation !== '=') {
     display.value = MemoryCurrentNumber;
   }
   else {
     MemoryNewNumber = true;
-    if (MemoryPendingOperation === '+'){
+    if (MemoryPendingOperation === '+') {
       MemoryCurrentNumber += parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber;
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
     }
-    else if (MemoryPendingOperation === '-'){
+    else if (MemoryPendingOperation === '-') {
       MemoryCurrentNumber -= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber;
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
     }
-    else if (MemoryPendingOperation === '×'){
+    else if (MemoryPendingOperation === '×') {
       MemoryCurrentNumber *= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber;
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
     }
-    else if (MemoryPendingOperation === '÷'){
+    else if (MemoryPendingOperation === '÷') {
       MemoryCurrentNumber /= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber;
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
     }
-    else{
+    else if (MemoryPendingOperation === '^') {
+      MemoryCurrentNumber = Math.pow(MemoryCurrentNumber, localOperationMemory);
+      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(18).replace(/0*$/,"");
+    }
+    else {
       MemoryCurrentNumber = parseFloat(localOperationMemory);
     }
-    display.value = MemoryCurrentNumber;
+    display.value = parseFloat(MemoryCurrentNumber);
     MemoryPendingOperation = operation;
   }
 };
 
-function decimalAdd(id){
+function decimalAdd(id) {
   let localDecimalMemory = display.value;
-  if (MemoryNewNumber){
+  if (MemoryNewNumber) {
     localDecimalMemory = '0.';
     MemoryNewNumber = false;
   }
-  else{
-    if(localDecimalMemory.indexOf('.') === -1 ){
+  else {
+    if(localDecimalMemory.indexOf('.') === -1 ) {
       localDecimalMemory += '.';
     }
   }
   display.value = localDecimalMemory;
 };
 
-function radicAdd(id){
+function radicAdd(id) {
   let localOperationMemory = display.value;
-  if (Math.sign(localOperationMemory) == '1'){
+  if (Math.sign(localOperationMemory) == '1') {
     localOperationMemory = Math.sqrt(localOperationMemory);
     display.value = localOperationMemory;
     MemoryNewNumber = false;
@@ -115,27 +117,7 @@ function radicAdd(id){
   else {display.value = 'Error'}
 };
 
-function sup2Add(id){
-  let localOperationMemory = display.value;
-  localOperationMemory = Math.pow(localOperationMemory, 2);
-  let numberOfSings = function (localOperationMemory){
-  return (localOperationMemory.toString().includes('.')) ? (localOperationMemory.toString().split('.').pop().length) : (0);
-  };
-  if (numberOfSings(localOperationMemory) <= '20'){
-    display.value = localOperationMemory;
-    MemoryNewNumber = false;
-    MemoryCurrentNumber = localOperationMemory;
-    MemoryPendingOperation = '';
-  }
-  else{
-    display.value = localOperationMemory.toFixed(20);
-    MemoryNewNumber = false;
-    MemoryCurrentNumber = localOperationMemory;
-    MemoryPendingOperation = '';
-    }
-};
-
-function absAdd(id){
+function absAdd(id) {
   let localOperationMemory = display.value;
   localOperationMemory = Math.abs(localOperationMemory);
   display.value = localOperationMemory;
@@ -144,7 +126,7 @@ function absAdd(id){
   MemoryPendingOperation = '';
 };
 
-function factorialAdd(id){
+function factorialAdd(id) {
   let localOperationMemory = display.value;
     function factorialize(number) {
     let result = number;
@@ -163,7 +145,7 @@ function factorialAdd(id){
   MemoryPendingOperation = '';
 };
 
-function minusAdd(id){
+function minusAdd(id) {
   let localOperationMemory = display.value;
   localOperationMemory = -(localOperationMemory);
   display.value = localOperationMemory;
@@ -172,7 +154,7 @@ function minusAdd(id){
   MemoryPendingOperation = '';
 };
 
-function clearPress(id){
+function clearPress(id) {
   if (id === 'ce'){
     display.value = '0';
     MemoryNewNumber = true;
