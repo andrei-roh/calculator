@@ -1,1 +1,1 @@
-# ready-projects
+# JavaScript Calculator

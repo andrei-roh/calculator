@@ -12,25 +12,24 @@ let numbers = document.querySelectorAll('.number'),
     MemoryNewNumber = false,
     MemoryPendingOperation = '';
 
-
-for(i = 0; i < numbers.length; i++) {
-  let number = numbers[i];
-  number.addEventListener('click', function(symbol) {
+numbers.forEach(number => {
+  number.addEventListener('click', function(symbol){
     numberPress(symbol.target.textContent);
   });
-}
-for(i = 0; i < operators.length; i++){
-  let operatorButton = operators[i];
-  operatorButton.addEventListener('click', function(symbol) {
+})
+
+operators.forEach(operator => {
+  operator.addEventListener('click', function(symbol) {
     operatorPress(symbol.target.textContent);
   });
-}
-for(i = 0; i < clearButtons.length; i++) {
-  let clearButton = clearButtons[i];
-  clearButton.addEventListener('click', function(id) {
+})
+
+clearButtons.forEach(clearButton => {
+  clearButton.addEventListener('click', function(id){
     clearPress(id.srcElement.id)
   });
-}
+})
+
 decimalButton.addEventListener('click', decimalAdd);
 radicButton.addEventListener('click', radicAdd);
 absButton.addEventListener('click', absAdd);
@@ -42,17 +41,11 @@ function numberPress(number) {
     display.value = number;
     MemoryNewNumber = false;
   }
-  else if(MemoryNewNumber && MemoryPendingOperation === '-') {
+  else if (MemoryNewNumber && MemoryPendingOperation === '-') {
     display.value = -(number);
     MemoryNewNumber = false;
-  }
-  else{
-    if(display.value === '0') {
-      display.value = number;
-    }
-    else{
-    display.value += number;
-    }
+  } else {
+    display.value === '0' ? display.value = number : display.value += number;
   }
 };
 
@@ -63,35 +56,46 @@ function operatorPress(operation) {
   }
   else {
     MemoryNewNumber = true;
-    if (MemoryPendingOperation === '+') {
-      MemoryCurrentNumber += parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
-    }
-    else if (MemoryPendingOperation === '-') {
-      MemoryCurrentNumber -= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
-    }
-    else if (MemoryPendingOperation === '×') {
-      MemoryCurrentNumber *= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
-    }
-    else if (MemoryPendingOperation === '÷') {
-      MemoryCurrentNumber /= parseFloat(localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
-    }
-    else if (MemoryPendingOperation === '^') {
-      MemoryCurrentNumber = Math.pow(MemoryCurrentNumber, localOperationMemory);
-      MemoryCurrentNumber = MemoryCurrentNumber.toFixed(16).replace(/0*$/,"");
-    }
-    else {
-      MemoryCurrentNumber = parseFloat(localOperationMemory);
+    switch (MemoryPendingOperation) {
+      case '+':
+        MemoryCurrentNumber += parseFloat(localOperationMemory);
+        MemoryCurrentNumber = MemoryCurrentNumber;
+        MemoryPendingOperation = '';
+        break;
+      case '-':
+        MemoryCurrentNumber -= parseFloat(localOperationMemory);
+        MemoryCurrentNumber = MemoryCurrentNumber;
+        MemoryPendingOperation = '';
+        break;
+      case '×':
+        MemoryCurrentNumber *= parseFloat(localOperationMemory);
+        MemoryCurrentNumber = MemoryCurrentNumber;
+        MemoryPendingOperation = '';
+        break;
+      case '÷':
+        MemoryCurrentNumber /= parseFloat(localOperationMemory);
+        MemoryCurrentNumber = MemoryCurrentNumber;
+        MemoryPendingOperation = '';
+        break;
+      case '^':
+        MemoryCurrentNumber = parseFloat(Math.pow(MemoryCurrentNumber, localOperationMemory).toPrecision(12));
+        if (MemoryCurrentNumber.toString().includes('.')) {
+          if (MemoryCurrentNumber.toString().split('.').pop().includes('0000')) {
+            MemoryCurrentNumber = MemoryCurrentNumber.toString().split('.').shift();
+          }
+        }
+        MemoryPendingOperation = '';
+        break;
+      default:
+        MemoryCurrentNumber = parseFloat(localOperationMemory);
+        break;
     }
     display.value = parseFloat(MemoryCurrentNumber);
     MemoryPendingOperation = operation;
   }
 };
 
-function decimalAdd(id) {
+function decimalAdd() {
   let localDecimalMemory = display.value;
   if (MemoryNewNumber) {
     localDecimalMemory = '0.';
@@ -105,28 +109,22 @@ function decimalAdd(id) {
   display.value = localDecimalMemory;
 };
 
-function radicAdd(id) {
+function radicAdd() {
   let localOperationMemory = display.value;
   if (Math.sign(localOperationMemory) == '1') {
     localOperationMemory = Math.sqrt(localOperationMemory);
-    display.value = localOperationMemory;
-    MemoryNewNumber = false;
-    MemoryCurrentNumber = localOperationMemory;
-    MemoryPendingOperation = '';
+    setOperationSave(localOperationMemory);
   }
   else {display.value = 'Error'}
 };
 
-function absAdd(id) {
+function absAdd(){
   let localOperationMemory = display.value;
   localOperationMemory = Math.abs(localOperationMemory);
-  display.value = localOperationMemory;
-  MemoryNewNumber = false;
-  MemoryCurrentNumber = localOperationMemory;
-  MemoryPendingOperation = '';
+  setOperationSave(localOperationMemory);
 };
 
-function factorialAdd(id) {
+function factorialAdd(){
   let localOperationMemory = display.value;
     function factorialize(number) {
     let result = number;
@@ -139,30 +137,33 @@ function factorialAdd(id) {
     return result;
   }
   localOperationMemory = factorialize(localOperationMemory)
-  display.value = localOperationMemory;
-  MemoryNewNumber = false;
-  MemoryCurrentNumber = localOperationMemory;
-  MemoryPendingOperation = '';
+  setOperationSave(localOperationMemory);
 };
 
-function minusAdd(id) {
+function minusAdd() {
   let localOperationMemory = display.value;
   localOperationMemory = -(localOperationMemory);
-  display.value = localOperationMemory;
-  MemoryNewNumber = false;
-  MemoryCurrentNumber = localOperationMemory;
-  MemoryPendingOperation = '';
+  setOperationSave(localOperationMemory);
 };
 
 function clearPress(id) {
-  if (id === 'ce'){
-    display.value = '0';
-    MemoryNewNumber = true;
+  switch (id) {
+    case 'ce':
+      display.value = '0';
+      MemoryNewNumber = true;
+      break;
+    case 'clean':
+      display.value = '0';
+      MemoryNewNumber = true;
+      MemoryCurrentNumber = 0;
+      MemoryPendingOperation = '';
+      break;
   }
-  else if (id === 'clean') {
-    display.value = '0';
-    MemoryNewNumber = true;
-    MemoryCurrentNumber = 0;
-    MemoryPendingOperation = '';
-  }
+};
+
+function setOperationSave(localOperationMemory) {
+  display.value = localOperationMemory;
+  MemoryNewNumber = false;
+  MemoryCurrentNumber = localOperationMemory;
+  MemoryPendingOperation = '';
 };
