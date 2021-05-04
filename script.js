@@ -127,14 +127,10 @@ function absAdd(){
 function factorialAdd(){
   let localOperationMemory = display.value;
     function factorialize(number) {
-    let result = number;
-    if (number === 0 || number === 1)
+    if (number === 1) {
       return 1;
-    while (number > 1) {
-      number--;
-      result *= number;
     }
-    return result;
+    return number * factorialize(number - 1);
   }
   localOperationMemory = factorialize(localOperationMemory)
   setOperationSave(localOperationMemory);
